@@ -140,7 +140,7 @@
 
         .hero h1 {
             font-weight: 700;
-            font-size: clamp(40px, 7.4vw, 88px);
+            font-size: clamp(40px, 7vw, 88px);
             line-height: 1.04;
             letter-spacing: -0.03em;
             max-width: 12em;
@@ -186,7 +186,7 @@
         .section-head { max-width: 640px; margin-bottom: clamp(48px, 7vw, 80px); }
         .section-head h2 {
             font-weight: 700;
-            font-size: clamp(24px, 4vw, 42px);
+            font-size: clamp(24px, 4.4vw, 42px);
             line-height: 1.15;
         }
         .section-head p { margin-top: 20px; color: var(--muted); }
@@ -399,10 +399,10 @@
             <a href="#" class="logo" aria-label="BRAPA Engenharia, início">BRAPA.</a>
 
             <nav class="site-nav" aria-label="Principal">
-                <a href="#projetos">Projetos</a>
                 <a href="#servicos">Serviços</a>
-                <a href="#normas">Engenharia e normas</a>
-                <a href="#contato">Contato</a>
+                <a href="#projetos">Portfólio</a>
+                <a href="#normas">Engenharia</a>
+                <a href="#contato">Orçamento</a>
             </nav>
 
             <div class="header-actions">
@@ -415,8 +415,8 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1>Construção em Light Steel Framing</h1>
-                <p>Projetos estruturais completos e inteligentes para uma obra rápida, limpa e sem imprevistos.</p>
+                <h1>Seu projeto em Light Steel Framing</h1>
+                <p>Soluções completas e inteligentes para uma obra rápida, limpa e sem imprevistos.</p>
 
                 <div class="hero-actions">
                     <a href="#projetos" class="link">Ver portfólio</a>
@@ -434,8 +434,8 @@
 
                 <div class="services">
                     <div class="service">
-                        <h3>Modelagem e compatibilização BIM</h3>
-                        <p>Compatibilização do projeto etalhamento individualizado de cada painel em 3D.</p>
+                        <h3>Modelagem e compatibilização</h3>
+                        <p>Compatibilização arquitetônica do projeto e detalhamento individualizado de cada elemento em 3D.</p>
                         <p class="deliver">Entregáveis: pranchas de montagem e maquete virtual 3D</p>
                     </div>
 
@@ -457,7 +457,7 @@
         <section id="projetos" class="section viewer-section">
             <div class="container">
                 <div class="section-head">
-                    <h2>Seu empreendimento em 3D</h2>
+                    <h2>Portfólio</h2>
                     <p>Projetos recentes em Light Steel Framing. Gire, aproxime e explore cada modelo.</p>
                 </div>
 
@@ -493,12 +493,10 @@
                         <p>O projeto em Light Steel Framing atende às exigências brasileiras para perfis de aço formados a frio e estruturas industrializadas, considerando os efeitos de flambagem local, distorcional e global.</p>
 
                         <ul class="checks">
-                            <li>Verificação analítica conforme o método dos estados limites.</li>
-                            <li>Proteção contra corrosão com camada de zinco controlada.</li>
-                            <li>Análise de flechas para garantir o conforto dos usuários.</li>
+                            <li>Concepção e otimização estrutural da edificação.</li>
+                            <li>Análise de deformações e estados limites de uso.</li>
+                            <li>Proteção anticorrosiva com camada de zinco controlada.</li>
                         </ul>
-
-                        <a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer" class="link">Consulte a viabilidade técnica pelo WhatsApp</a>
                     </div>
 
                     <div>
@@ -509,7 +507,7 @@
                                 <strong>ABNT NBR 15253</strong>
                                 <span>Perfis de aço formados a frio para sistemas construtivos em Light Steel Framing</span>
                             </div>
-                            <em>Requisitos estruturais</em>
+                            <em>Perfis normatizados</em>
                         </div>
 
                         <div class="norm">
@@ -530,10 +528,10 @@
 
                         <div class="norm">
                             <div>
-                                <strong>ABNT NBR 6355</strong>
-                                <span>Perfis estruturais de aço conformados a frio, padronização de dimensões</span>
+                                <strong>ABNT NBR 16970</strong>
+                                <span>Boas práticas e detalhamentos construtivos para a execução da edificação</span>
                             </div>
-                            <em>Geometria e seções</em>
+                            <em>Diretrizes construtivas</em>
                         </div>
                     </div>
                 </div>
@@ -545,7 +543,7 @@
                 <div class="contact">
                     <div class="section-head">
                         <h2>Inicie a análise do seu projeto</h2>
-                        <p>Envie suas diretrizes arquitetônicas em DWG, RVT ou IFC para verificação e emissão de proposta técnica.</p>
+                        <p>Envie as informações do empreendimento para verificação e emissão de proposta técnica.</p>
 
                         <div class="channels">
                             <a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer">
@@ -564,35 +562,23 @@
                     </div>
 
                     <form id="contact-form" onsubmit="handleFormSubmit(event)">
-                        <div class="row">
-                            <div>
-                                <label for="name">Nome ou empresa</label>
-                                <input type="text" id="name" required placeholder="Seu nome">
-                            </div>
-                            <div>
-                                <label for="phone">Telefone ou WhatsApp</label>
-                                <input type="text" id="phone" required placeholder="(DDD) 00000-0000">
-                            </div>
-                        </div>
-
                         <div>
-                            <label for="email">E-mail</label>
-                            <input type="email" id="email" required placeholder="seuemail@exemplo.com">
+                            <label for="name">Nome ou empresa</label>
+                            <input type="text" id="name" required placeholder="Seu nome">
                         </div>
 
                         <div>
                             <label for="service">Tipo de solicitação</label>
                             <select id="service">
                                 <option value="Projeto Estrutural em LSF">Projeto Estrutural em LSF</option>
-                                <option value="Modelagem e Compatibilização BIM">Modelagem e Compatibilização BIM</option>
                                 <option value="Consultoria e Parecer Técnico">Consultoria e Parecer Técnico</option>
-                                <option value="Conversão de Projeto Alvenaria para LSF">Conversão de Alvenaria para LSF</option>
+                                <option value="Execução de obra em LSF">Execução em LSF</option>
                             </select>
                         </div>
 
                         <div>
-                            <label for="message">Detalhes da edificação (metragem, vãos, prazos)</label>
-                            <textarea id="message" rows="4" required placeholder="Descreva brevemente o projeto estrutural"></textarea>
+                            <label for="message">Detalhes da edificação</label>
+                            <textarea id="message" rows="4" required placeholder="Área, prazos e particularidades da edificação"></textarea>
                         </div>
 
                         <button type="submit" class="btn">Solicitar orçamento</button>

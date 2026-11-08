@@ -191,12 +191,16 @@
         }
         .section-head p { margin-top: 20px; color: var(--muted); }
 
-        /* Visualizador 3D */
-        .section.viewer-section { padding: clamp(40px, 6vw, 72px) 0; border-top: 1px solid var(--line); }
+        /* Nossos projetos: visualizadores 3D */
+        .section.viewer-section { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--line); }
+        .viewer-section .section-head { margin-bottom: clamp(32px, 5vw, 56px); }
+
+        .viewers { display: grid; gap: 24px; grid-template-columns: 1fr; }
+        @media (min-width: 980px) { .viewers { grid-template-columns: 1fr 1fr; } }
 
         .viewer {
             position: relative;
-            height: clamp(440px, 80vh, 780px);
+            height: clamp(400px, 62vh, 560px);
             background: var(--surface);
             border-radius: 2px;
             overflow: hidden;
@@ -213,6 +217,16 @@
         }
         .viewer canvas:active { cursor: grabbing; }
         .viewer canvas:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+        .viewer-caption {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 13px;
+            pointer-events: none;
+        }
 
         .viewer-status {
             position: absolute;
@@ -231,8 +245,9 @@
             position: absolute;
             left: 20px;
             bottom: 18px;
-            max-width: calc(100% - 200px);
+            max-width: calc(100% - 210px);
             font-size: 13px;
+            line-height: 1.45;
             color: var(--muted);
             pointer-events: none;
             transition: opacity .8s;
@@ -431,12 +446,30 @@
 
         <section id="projetos" class="section viewer-section">
             <div class="container">
-                <div class="viewer" id="viewer" role="region" aria-label="Visualizador 3D da maquete">
-                    <div class="viewer-status" id="viewer-status">Carregando maquete</div>
-                    <p class="viewer-hint" id="viewer-hint"></p>
-                    <div class="viewer-tools">
-                        <button type="button" id="viewer-reset">Reiniciar vista</button>
-                        <button type="button" id="viewer-full" hidden>Tela cheia</button>
+                <div class="section-head">
+                    <h2>Nossos projetos</h2>
+                    <p>Maquetes 3D de estruturas em Light Steel Framing. Gire, aproxime e explore cada modelo.</p>
+                </div>
+
+                <div class="viewers">
+                    <div class="viewer" data-model="instigue-r11.glb" role="region" aria-label="Maquete 3D: 26-003 Instigue R11">
+                        <p class="viewer-caption">26-003 Instigue R11</p>
+                        <div class="viewer-status">Carregando maquete</div>
+                        <p class="viewer-hint"></p>
+                        <div class="viewer-tools">
+                            <button type="button" class="v-reset">Reiniciar vista</button>
+                            <button type="button" class="v-full" hidden>Tela cheia</button>
+                        </div>
+                    </div>
+
+                    <div class="viewer" data-model="brp001-r08.glb" role="region" aria-label="Maquete 3D: BRP001 Instigue R08">
+                        <p class="viewer-caption">BRP001 Instigue R08</p>
+                        <div class="viewer-status">Carregando maquete</div>
+                        <p class="viewer-hint"></p>
+                        <div class="viewer-tools">
+                            <button type="button" class="v-reset">Reiniciar vista</button>
+                            <button type="button" class="v-full" hidden>Tela cheia</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -638,145 +671,156 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
-        const MODEL_URL = 'maquete.glb';
-
-        const box = document.getElementById('viewer');
-        const statusEl = document.getElementById('viewer-status');
-        const hintEl = document.getElementById('viewer-hint');
-        const resetBtn = document.getElementById('viewer-reset');
-        const fullBtn = document.getElementById('viewer-full');
+        const MODEL_COLOR = 0x9ca1a6;   // cinza dos elementos (troque aqui para ajustar)
 
         const touch = window.matchMedia('(pointer: coarse)').matches;
-        hintEl.textContent = touch
+        const HINT = touch
             ? 'Arraste para girar, use dois dedos para zoom'
-            : 'Arraste para girar, role para dar zoom, botão direito para mover';
+            : 'Arraste para girar, role para dar zoom';
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000, 0);
-        const canvas = renderer.domElement;
-        canvas.tabIndex = 0;
-        canvas.setAttribute('aria-label', 'Maquete 3D. Arraste para girar e role para dar zoom.');
-        box.prepend(canvas);
+        function createViewer(box) {
+            const statusEl = box.querySelector('.viewer-status');
+            const hintEl = box.querySelector('.viewer-hint');
+            const resetBtn = box.querySelector('.v-reset');
+            const fullBtn = box.querySelector('.v-full');
+            hintEl.textContent = HINT;
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 500);
-        scene.add(camera);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x000000, 0);
+            const canvas = renderer.domElement;
+            canvas.tabIndex = 0;
+            canvas.setAttribute('aria-label', 'Maquete 3D. Arraste para girar e role para dar zoom.');
+            box.prepend(canvas);
 
-        // Luz presa à câmera: o modelo fica bem iluminado de qualquer ângulo
-        scene.add(new THREE.HemisphereLight(0xffffff, 0xbfc3c8, 1.5));
-        const headlight = new THREE.DirectionalLight(0xffffff, 1.8);
-        headlight.position.set(0.4, 0.8, 1);
-        camera.add(headlight);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 500);
+            scene.add(camera);
 
-        const controls = new OrbitControls(camera, canvas);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.08;
-        controls.zoomToCursor = true;
-        controls.screenSpacePanning = true;
-        controls.maxPolarAngle = Math.PI * 0.52;
-        controls.listenToKeyEvents(canvas);
+            // Luz presa à câmera: o modelo fica bem iluminado de qualquer ângulo
+            scene.add(new THREE.HemisphereLight(0xffffff, 0xbfc3c8, 1.5));
+            const headlight = new THREE.DirectionalLight(0xffffff, 1.8);
+            headlight.position.set(0.4, 0.8, 1);
+            camera.add(headlight);
 
-        let dirty = true;
-        const start = { pos: new THREE.Vector3(), target: new THREE.Vector3() };
-        let tween = null;
+            const controls = new OrbitControls(camera, canvas);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.08;
+            controls.zoomToCursor = true;
+            controls.screenSpacePanning = true;
+            controls.maxPolarAngle = Math.PI * 0.52;
+            controls.listenToKeyEvents(canvas);
 
-        function resize() {
-            const w = box.clientWidth, h = box.clientHeight;
-            if (!w || !h) return;
-            renderer.setSize(w, h, false);
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            dirty = true;
-        }
-        new ResizeObserver(resize).observe(box);
-        resize();
+            let dirty = true;
+            const start = { pos: new THREE.Vector3(), target: new THREE.Vector3() };
+            let tween = null;
 
-        function hideHint() { hintEl.classList.add('is-hidden'); }
-        canvas.addEventListener('pointerdown', hideHint, { once: true });
-        canvas.addEventListener('wheel', hideHint, { once: true, passive: true });
-
-        function loop(now) {
-            requestAnimationFrame(loop);
-            if (tween) {
-                const k = Math.min((now - tween.t0) / 600, 1);
-                const e = 1 - Math.pow(1 - k, 3);
-                camera.position.lerpVectors(tween.fromPos, start.pos, e);
-                controls.target.lerpVectors(tween.fromTarget, start.target, e);
-                if (k === 1) tween = null;
-                dirty = true;
-            }
-            if (controls.update()) dirty = true;
-            if (dirty) { renderer.render(scene, camera); dirty = false; }
-        }
-
-        controls.addEventListener('change', () => { dirty = true; });
-
-        resetBtn.addEventListener('click', () => {
-            tween = { t0: performance.now(), fromPos: camera.position.clone(), fromTarget: controls.target.clone() };
-        });
-
-        if (document.fullscreenEnabled) {
-            fullBtn.hidden = false;
-            fullBtn.addEventListener('click', () => {
-                if (document.fullscreenElement) document.exitFullscreen();
-                else box.requestFullscreen();
-            });
-            document.addEventListener('fullscreenchange', () => {
-                fullBtn.textContent = document.fullscreenElement ? 'Sair da tela cheia' : 'Tela cheia';
-            });
-        }
-
-        const loader = new GLTFLoader();
-        loader.setMeshoptDecoder(MeshoptDecoder);
-        loader.load(
-            MODEL_URL,
-            (gltf) => {
-                const model = gltf.scene;
-
-                // Materiais leves, com sombreamento facetado (o arquivo não carrega normais)
-                model.traverse((o) => {
-                    if (!o.isMesh) return;
-                    const m = o.material;
-                    o.material = new THREE.MeshLambertMaterial({
-                        color: m.color,
-                        transparent: m.transparent,
-                        opacity: m.opacity,
-                        depthWrite: !m.transparent,
-                        side: THREE.DoubleSide,
-                        flatShading: true
-                    });
-                    m.dispose();
-                });
-                scene.add(model);
-
-                const bounds = new THREE.Box3().setFromObject(model);
-                const sphere = bounds.getBoundingSphere(new THREE.Sphere());
-                const dist = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.05;
-
-                start.target.copy(sphere.center);
-                start.pos.copy(sphere.center).add(new THREE.Vector3(1, 0.6, 1.3).normalize().multiplyScalar(dist));
-                camera.position.copy(start.pos);
-                camera.near = sphere.radius / 100;
-                camera.far = sphere.radius * 40;
+            function resize() {
+                const w = box.clientWidth, h = box.clientHeight;
+                if (!w || !h) return;
+                renderer.setSize(w, h, false);
+                camera.aspect = w / h;
                 camera.updateProjectionMatrix();
-                controls.target.copy(start.target);
-                controls.minDistance = sphere.radius * 0.15;
-                controls.maxDistance = dist * 3;
-                controls.update();
-
-                statusEl.hidden = true;
                 dirty = true;
-            },
-            (e) => {
-                if (e.lengthComputable) statusEl.textContent = 'Carregando maquete ' + Math.round(e.loaded / e.total * 100) + '%';
-            },
-            () => {
-                statusEl.textContent = 'Não foi possível carregar a maquete. Publique o site em um servidor, com o arquivo maquete.glb na mesma pasta do index.html.';
             }
-        );
+            new ResizeObserver(resize).observe(box);
+            resize();
 
-        requestAnimationFrame(loop);
+            const hideHint = () => hintEl.classList.add('is-hidden');
+            canvas.addEventListener('pointerdown', hideHint, { once: true });
+            canvas.addEventListener('wheel', hideHint, { once: true, passive: true });
+
+            function loop(now) {
+                requestAnimationFrame(loop);
+                if (tween) {
+                    const k = Math.min((now - tween.t0) / 600, 1);
+                    const e = 1 - Math.pow(1 - k, 3);
+                    camera.position.lerpVectors(tween.fromPos, start.pos, e);
+                    controls.target.lerpVectors(tween.fromTarget, start.target, e);
+                    if (k === 1) tween = null;
+                    dirty = true;
+                }
+                if (controls.update()) dirty = true;
+                if (dirty) { renderer.render(scene, camera); dirty = false; }
+            }
+            controls.addEventListener('change', () => { dirty = true; });
+
+            resetBtn.addEventListener('click', () => {
+                tween = { t0: performance.now(), fromPos: camera.position.clone(), fromTarget: controls.target.clone() };
+            });
+
+            if (document.fullscreenEnabled) {
+                fullBtn.hidden = false;
+                fullBtn.addEventListener('click', () => {
+                    if (document.fullscreenElement === box) document.exitFullscreen();
+                    else box.requestFullscreen();
+                });
+                document.addEventListener('fullscreenchange', () => {
+                    fullBtn.textContent = document.fullscreenElement === box ? 'Sair da tela cheia' : 'Tela cheia';
+                });
+            }
+
+            const loader = new GLTFLoader();
+            loader.setMeshoptDecoder(MeshoptDecoder);
+            loader.load(
+                box.dataset.model,
+                (gltf) => {
+                    const model = gltf.scene;
+
+                    // Todos os elementos em cinza, com sombreamento facetado (o arquivo não carrega normais)
+                    model.traverse((o) => {
+                        if (!o.isMesh) return;
+                        const m = o.material;
+                        o.material = new THREE.MeshLambertMaterial({
+                            color: MODEL_COLOR,
+                            transparent: m.transparent,
+                            opacity: m.opacity,
+                            depthWrite: !m.transparent,
+                            side: THREE.DoubleSide,
+                            flatShading: true
+                        });
+                        m.dispose();
+                    });
+                    scene.add(model);
+
+                    const bounds = new THREE.Box3().setFromObject(model);
+                    const sphere = bounds.getBoundingSphere(new THREE.Sphere());
+                    const dist = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.05;
+
+                    start.target.copy(sphere.center);
+                    start.pos.copy(sphere.center).add(new THREE.Vector3(1, 0.6, 1.3).normalize().multiplyScalar(dist));
+                    camera.position.copy(start.pos);
+                    camera.near = sphere.radius / 100;
+                    camera.far = sphere.radius * 40;
+                    camera.updateProjectionMatrix();
+                    controls.target.copy(start.target);
+                    controls.minDistance = sphere.radius * 0.15;
+                    controls.maxDistance = dist * 3;
+                    controls.update();
+
+                    statusEl.hidden = true;
+                    dirty = true;
+                },
+                (e) => {
+                    if (e.lengthComputable) statusEl.textContent = 'Carregando maquete ' + Math.round(e.loaded / e.total * 100) + '%';
+                },
+                () => {
+                    statusEl.textContent = 'Não foi possível carregar a maquete. Publique o site em um servidor, com os arquivos .glb na mesma pasta do index.html.';
+                }
+            );
+
+            requestAnimationFrame(loop);
+        }
+
+        // Cada maquete só é carregada quando o painel está perto de aparecer na tela
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((en) => {
+                if (!en.isIntersecting) return;
+                io.unobserve(en.target);
+                createViewer(en.target);
+            });
+        }, { rootMargin: '300px' });
+        document.querySelectorAll('.viewer').forEach((v) => io.observe(v));
     </script>
 
     <script>

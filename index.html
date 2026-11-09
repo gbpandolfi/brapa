@@ -7,29 +7,29 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --paper: #ffffff;
-            --surface: #f4f5f6;
-            --ink: #1f2123;
-            --muted: #6a6f74;
-            --line: #e3e5e7;
+            --surface: #f6f7f8;
+            --ink: #1a1c1e;
+            --muted: #62676d;
+            --line: #e2e4e7;
             --display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
             --text: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
-            --gutter: clamp(20px, 5vw, 48px);
-            --section: clamp(72px, 11vw, 136px);
+            --gutter: clamp(16px, 4vw, 36px);
+            --section-gap: clamp(40px, 6vw, 76px);
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+        html { scroll-behavior: smooth; scroll-padding-top: 68px; }
 
         body {
             font-family: var(--text);
-            font-size: 16px;
-            line-height: 1.65;
+            font-size: 15px;
+            line-height: 1.6;
             color: var(--ink);
             background: var(--paper);
             -webkit-font-smoothing: antialiased;
@@ -42,7 +42,7 @@
         a:focus-visible, button:focus-visible, input:focus-visible,
         select:focus-visible, textarea:focus-visible {
             outline: 2px solid var(--ink);
-            outline-offset: 3px;
+            outline-offset: 2px;
         }
 
         ::selection { background: var(--ink); color: var(--paper); }
@@ -71,17 +71,20 @@
         .link:hover { color: var(--muted); }
 
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-family: var(--display);
             font-weight: 600;
             font-size: 14px;
-            padding: 14px 26px;
+            padding: 12px 24px;
             background: var(--ink);
             color: var(--paper);
             border: 1px solid var(--ink);
-            border-radius: 2px;
+            border-radius: 4px;
             cursor: pointer;
             transition: background .2s, color .2s;
+            text-align: center;
         }
         .btn:hover { background: var(--paper); color: var(--ink); }
 
@@ -89,46 +92,47 @@
         .site-header {
             position: sticky;
             top: 0;
-            z-index: 10;
-            background: rgba(255, 255, 255, .96);
+            z-index: 100;
+            background: rgba(255, 255, 255, .95);
+            backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--line);
         }
         .site-header .container {
-            height: 72px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
+            gap: 16px;
         }
 
         .logo {
             font-family: var(--display);
             font-weight: 800;
-            font-size: 24px;
+            font-size: 22px;
             letter-spacing: -0.02em;
             line-height: 1;
         }
         .logo::after {
             content: '';
             display: block;
-            height: 3px;
-            margin-top: 6px;
+            height: 2.5px;
+            margin-top: 4px;
             background: var(--ink);
         }
 
-        .site-nav { display: none; gap: 32px; }
+        .site-nav { display: none; gap: 28px; }
         .site-nav a {
             font-family: var(--display);
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--muted);
             transition: color .2s;
         }
         .site-nav a:hover { color: var(--ink); }
 
-        .header-actions { display: flex; align-items: center; gap: 24px; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
         .header-actions .ig { display: none; }
-        .header-actions .btn { padding: 10px 20px; }
+        .header-actions .btn { padding: 8px 18px; font-size: 13px; }
 
         @media (min-width: 820px) {
             .site-nav { display: flex; }
@@ -136,96 +140,100 @@
         }
 
         /* Hero */
-        .hero { padding: clamp(72px, 12vw, 152px) 0 var(--section); }
-
+        .hero { padding: clamp(44px, 7vw, 88px) 0 clamp(32px, 5vw, 64px); }
         .hero h1 {
             font-weight: 700;
-            font-size: clamp(40px, 7vw, 88px);
-            line-height: 1.04;
-            letter-spacing: -0.03em;
-            max-width: 12em;
+            font-size: clamp(32px, 5.5vw, 64px);
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            max-width: 14em;
         }
-
         .hero p {
-            margin-top: 32px;
-            max-width: 56ch;
-            font-size: clamp(17px, 2vw, 20px);
+            margin-top: 18px;
+            max-width: 58ch;
+            font-size: clamp(15px, 1.8vw, 18px);
             color: var(--muted);
         }
-
-        .hero-actions {
-            margin-top: 44px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 20px 32px;
-        }
-
-        .specs {
-            margin-top: clamp(64px, 9vw, 112px);
-            padding-top: 28px;
-            border-top: 1px solid var(--line);
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px 24px;
-        }
-        @media (min-width: 820px) { .specs { grid-template-columns: repeat(4, 1fr); } }
-
-        .specs dt { font-size: 13px; color: var(--muted); }
-        .specs dd {
-            margin-top: 4px;
-            font-family: var(--display);
-            font-weight: 600;
-            font-size: 16px;
-        }
+        .hero-actions { margin-top: 28px; display: flex; align-items: center; gap: 20px; }
 
         /* Sections */
-        .section { padding: var(--section) 0; }
+        .section { padding: var(--section-gap) 0; }
         .section.tint { background: var(--surface); }
 
-        .section-head { max-width: 640px; margin-bottom: clamp(48px, 7vw, 80px); }
+        .section-head { max-width: 680px; margin-bottom: clamp(28px, 4vw, 44px); }
         .section-head h2 {
             font-weight: 700;
-            font-size: clamp(24px, 4.4vw, 42px);
-            line-height: 1.15;
+            font-size: clamp(22px, 3.2vw, 34px);
+            line-height: 1.2;
         }
-        .section-head p { margin-top: 20px; color: var(--muted); }
+        .section-head p { margin-top: 10px; color: var(--muted); font-size: 15px; }
 
-        /* Nossos projetos: visualizadores 3D */
-        .section.viewer-section { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--line); }
-        .viewer-section .section-head { margin-bottom: clamp(32px, 5vw, 56px); }
+        /* Serviços */
+        .services {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 768px) { .services { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
 
-        .viewers { display: grid; gap: 24px; grid-template-columns: 1fr; }
-        @media (min-width: 980px) { .viewers { grid-template-columns: 1fr 1fr; } }
+        .service {
+            padding-top: 18px;
+            border-top: 2px solid var(--ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .service h3 { font-weight: 600; font-size: 18px; line-height: 1.3; }
+        .service p { margin-top: 10px; font-size: 14.5px; color: var(--muted); }
+        .service .deliver {
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            background: #eaecee;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        /* Visualizadores 3D */
+        .viewers {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 900px) { .viewers { grid-template-columns: 1fr 1fr; gap: 28px; } }
 
         .viewer {
             position: relative;
-            height: clamp(400px, 62vh, 560px);
-            background: var(--surface);
-            border-radius: 2px;
+            height: clamp(340px, 48vh, 480px);
+            background: #eef1f4;
+            border-radius: 6px;
+            border: 1px solid var(--line);
             overflow: hidden;
+            touch-action: pan-y; /* Permite rolagem suave de página em telas touch */
         }
-        .viewer:fullscreen { height: 100%; border-radius: 0; }
+        .viewer:fullscreen { height: 100%; border-radius: 0; border: none; }
 
         .viewer canvas {
             display: block;
             width: 100%;
             height: 100%;
-            touch-action: none;
             cursor: grab;
             outline: none;
         }
         .viewer canvas:active { cursor: grabbing; }
-        .viewer canvas:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
 
         .viewer-caption {
             position: absolute;
-            top: 16px;
-            left: 20px;
+            top: 14px;
+            left: 16px;
+            right: 16px;
             font-family: var(--display);
             font-weight: 600;
             font-size: 13px;
+            color: var(--ink);
             pointer-events: none;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
         .viewer-status {
@@ -233,158 +241,190 @@
             inset: 0;
             display: grid;
             place-items: center;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--muted);
             pointer-events: none;
+            background: rgba(238, 241, 244, 0.9);
         }
         .viewer-status[hidden] { display: none; }
 
         .viewer-hint {
             position: absolute;
-            left: 20px;
-            bottom: 18px;
-            max-width: calc(100% - 210px);
-            font-size: 13px;
-            line-height: 1.45;
+            left: 16px;
+            bottom: 16px;
+            max-width: calc(100% - 150px);
+            font-size: 12px;
+            line-height: 1.35;
             color: var(--muted);
             pointer-events: none;
-            transition: opacity .8s;
+            transition: opacity .4s;
         }
         .viewer-hint.is-hidden { opacity: 0; }
 
-        .viewer-tools { position: absolute; right: 16px; bottom: 16px; display: flex; gap: 8px; }
+        .viewer-tools { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; }
         .viewer-tools button {
             font-family: var(--display);
             font-weight: 600;
-            font-size: 13px;
-            padding: 9px 14px;
+            font-size: 12px;
+            padding: 7px 12px;
             color: var(--ink);
-            background: var(--paper);
+            background: rgba(255, 255, 255, 0.95);
             border: 1px solid var(--line);
-            border-radius: 2px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: border-color .2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: border-color .2s, background .2s;
         }
-        .viewer-tools button:hover { border-color: var(--ink); }
-        .viewer-tools button[hidden] { display: none; }
+        .viewer-tools button:hover { border-color: var(--ink); background: #ffffff; }
 
-        /* Services */
-        .services {
-            display: grid;
-            gap: 48px 40px;
-            grid-template-columns: 1fr;
-        }
-        @media (min-width: 820px) { .services { grid-template-columns: repeat(3, 1fr); } }
-
-        .service { padding-top: 24px; border-top: 1px solid var(--ink); }
-        .service h3 { font-weight: 600; font-size: 20px; line-height: 1.3; }
-        .service p { margin-top: 16px; font-size: 15px; color: var(--muted); }
-        .service .deliver { margin-top: 20px; font-size: 14px; color: var(--ink); }
-
-        /* Standards */
+        /* Normas */
         .standards {
             display: grid;
-            gap: 56px;
+            gap: 28px;
             grid-template-columns: 1fr;
             align-items: start;
         }
-        @media (min-width: 980px) { .standards { grid-template-columns: 5fr 7fr; gap: 80px; } }
+        @media (min-width: 900px) {
+            .standards { grid-template-columns: 5fr 7fr; gap: 56px; }
+            .standards .section-head { margin-bottom: 0; }
+        }
 
-        .standards .section-head { margin-bottom: 0; }
-        .checks { margin-top: 32px; display: grid; gap: 12px; font-size: 15px; }
-        .standards .link { display: inline-block; margin-top: 36px; }
-
-        .norms-title {
+        .norms-list { display: grid; gap: 12px; }
+        .norm-card {
+            background: var(--surface);
+            padding: 16px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        @media (min-width: 580px) {
+            .norm-card {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+            }
+        }
+        .norm-info { display: grid; gap: 2px; }
+        .norm-code {
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 14.5px;
+            color: var(--ink);
+        }
+        .norm-desc {
+            font-size: 13.5px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+        .norm-tag {
+            align-self: flex-start;
+            white-space: nowrap;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 18px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--ink);
+            color: var(--ink);
+            background: #e2e5e8;
+            padding: 4px 10px;
+            border-radius: 20px;
         }
-        .norm {
-            padding: 22px 0;
-            border-bottom: 1px solid var(--line);
-            display: grid;
-            gap: 4px 24px;
-        }
-        @media (min-width: 640px) { .norm { grid-template-columns: 1fr auto; align-items: baseline; } }
-        .norm strong { font-family: var(--display); font-weight: 600; font-size: 16px; }
-        .norm span { display: block; font-size: 14px; color: var(--muted); max-width: 52ch; }
-        .norm em { font-style: normal; font-size: 13px; color: var(--muted); white-space: nowrap; }
+        @media (min-width: 580px) { .norm-tag { align-self: center; } }
 
-        /* Contact */
+        /* Contato */
         .contact {
             display: grid;
-            gap: 64px;
+            gap: 36px;
             grid-template-columns: 1fr;
         }
-        @media (min-width: 980px) { .contact { grid-template-columns: 5fr 7fr; gap: 80px; } }
+        @media (min-width: 900px) {
+            .contact { grid-template-columns: 5fr 7fr; gap: 64px; }
+            .contact .section-head { margin-bottom: 0; }
+        }
 
-        .contact .section-head { margin-bottom: 0; }
-        .channels { margin-top: 40px; display: grid; gap: 24px; }
-        .channels a { display: block; transition: color .2s; }
-        .channels a:hover { color: var(--muted); }
-        .channels small { display: block; font-size: 13px; color: var(--muted); }
-        .channels b { font-family: var(--display); font-weight: 600; font-size: 17px; word-break: break-word; }
+        .channels { margin-top: 28px; display: grid; gap: 16px; }
+        .channels a {
+            display: block;
+            padding: 12px 16px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            transition: border-color .2s;
+        }
+        .channels a:hover { border-color: var(--ink); }
+        .channels small { display: block; font-size: 12px; color: var(--muted); }
+        .channels b { font-family: var(--display); font-weight: 600; font-size: 15px; word-break: break-word; }
 
-        form { display: grid; gap: 28px; }
-        .row { display: grid; gap: 28px; grid-template-columns: 1fr; }
-        @media (min-width: 640px) { .row { grid-template-columns: 1fr 1fr; } }
+        form {
+            background: var(--paper);
+            padding: clamp(20px, 4vw, 36px);
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            display: grid;
+            gap: 20px;
+        }
+        .form-row { display: grid; gap: 16px; grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .form-row { grid-template-columns: 1fr 1fr; } }
 
-        label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+        label { display: block; font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
 
         input, select, textarea {
             width: 100%;
             font: inherit;
-            font-size: 16px;
+            font-size: 14.5px;
             color: var(--ink);
-            background: transparent;
-            border: 0;
-            border-bottom: 1px solid #b9bdc1;
-            border-radius: 0;
-            padding: 10px 0;
-            transition: border-color .2s;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 10px 14px;
+            transition: border-color .2s, background .2s;
         }
-        input::placeholder, textarea::placeholder { color: #9a9fa4; }
-        input:focus, select:focus, textarea:focus { outline: none; border-bottom-color: var(--ink); }
-        textarea { resize: vertical; min-height: 110px; }
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%231f2123' stroke-width='1.5'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 2px center;
-            padding-right: 24px;
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--ink);
+            background: #ffffff;
         }
+        textarea { resize: vertical; min-height: 96px; }
 
-        form .btn { justify-self: start; margin-top: 4px; }
+        form .btn { justify-self: start; width: 100%; }
+        @media (min-width: 600px) { form .btn { width: auto; } }
 
-        #form-feedback { font-size: 14px; color: var(--muted); }
-        #form-feedback strong { color: var(--ink); font-family: var(--display); font-weight: 600; }
+        #form-feedback {
+            font-size: 13.5px;
+            color: #1e5e3a;
+            background: #e8f5e9;
+            padding: 12px 16px;
+            border-radius: 4px;
+        }
 
         /* Footer */
-        .site-footer { border-top: 1px solid var(--line); padding: 64px 0 40px; font-size: 14px; color: var(--muted); }
-        .footer-grid { display: grid; gap: 40px; grid-template-columns: 1fr; }
-        @media (min-width: 820px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; gap: 64px; } }
-        .footer-grid .logo { color: var(--ink); display: inline-block; font-size: 20px; }
-        .footer-grid .logo::after { height: 2px; margin-top: 5px; }
-        .footer-grid p { margin-top: 20px; max-width: 40ch; }
-        .footer-grid h4 { font-family: var(--display); font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 14px; }
+        .site-footer {
+            border-top: 1px solid var(--line);
+            padding: 44px 0 32px;
+            font-size: 13.5px;
+            color: var(--muted);
+        }
+        .footer-grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; gap: 48px; } }
+        .footer-grid .logo { font-size: 20px; }
+        .footer-grid .logo::after { height: 2px; }
+        .footer-grid p { margin-top: 12px; max-width: 44ch; }
+        .footer-grid h4 { font-family: var(--display); font-weight: 600; font-size: 13.5px; color: var(--ink); margin-bottom: 12px; }
         .footer-grid li + li { margin-top: 8px; }
-        .footer-grid a { transition: color .2s; }
         .footer-grid a:hover { color: var(--ink); }
+
         .footer-bottom {
-            margin-top: 56px;
-            padding-top: 24px;
+            margin-top: 36px;
+            padding-top: 20px;
             border-top: 1px solid var(--line);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            gap: 12px 24px;
-            font-size: 13px;
+            gap: 12px 20px;
+            font-size: 12.5px;
         }
-        .footer-bottom a:hover { color: var(--ink); }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
@@ -417,11 +457,10 @@
             <div class="container">
                 <h1>Seu projeto em Light Steel Framing</h1>
                 <p>Soluções completas e inteligentes para uma obra rápida, limpa e sem imprevistos.</p>
-
                 <div class="hero-actions">
-                    <a href="#projetos" class="link">Ver portfólio</a>
+                    <a href="#projetos" class="btn">Ver projetos</a>
+                    <a href="#contato" class="link">Solicitar orçamento</a>
                 </div>
-
             </div>
         </section>
 
@@ -433,50 +472,56 @@
 
                 <div class="services">
                     <div class="service">
-                        <h3>Modelagem e compatibilização</h3>
-                        <p>Compatibilização arquitetônica do projeto e detalhamento individualizado de cada elemento em 3D.</p>
-                        <p class="deliver">Entregáveis: pranchas de montagem e maquete virtual 3D</p>
+                        <div>
+                            <h3>Modelagem e compatibilização</h3>
+                            <p>Compatibilização arquitetônica e detalhamento individualizado de cada montante, guia e travamento em 3D.</p>
+                        </div>
+                        <p class="deliver">Entregáveis: pranchas de montagem e modelo 3D</p>
                     </div>
 
                     <div class="service">
-                        <h3>Cálculo e dimensionamento</h3>
-                        <p>Determinação dos esforços solicitantes, dimensionamento dos elementos estruturais e das ancoragens à fundação.</p>
+                        <div>
+                            <h3>Cálculo e dimensionamento</h3>
+                            <p>Determinação dos esforços solicitantes, dimensionamento das seções e detalhamento das ancoragens na fundação.</p>
+                        </div>
                         <p class="deliver">Entregáveis: memorial de cálculo e ART</p>
                     </div>
 
                     <div class="service">
-                        <h3>Lista de compra e orientações</h3>
-                        <p>Quantitativo de perfis, parafusos e acessórios, com orientações técnicas para as equipes de montagem e fiscalização.</p>
-                        <p class="deliver">Entregáveis: lista de materiais e diretrizes construtivas</p>
+                        <div>
+                            <h3>Listas de materiais e montagem</h3>
+                            <p>Quantitativo milimétrico de perfis, parafusos e acessórios, com diretrizes técnicas para montagem no canteiro.</p>
+                        </div>
+                        <p class="deliver">Entregáveis: lista de compras e manual executivo</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="projetos" class="section viewer-section">
+        <section id="projetos" class="section">
             <div class="container">
                 <div class="section-head">
-                    <h2>Portfólio</h2>
-                    <p>Projetos recentes em Light Steel Framing. Gire, aproxime e explore cada modelo.</p>
+                    <h2>Portfólio interativo</h2>
+                    <p>Modelos estruturais em Light Steel Framing. Arraste para girar, dê zoom e visualize a estrutura.</p>
                 </div>
 
                 <div class="viewers">
-                    <div class="viewer" data-model="projeto1.glb" role="region">
-                        <p class="viewer-caption">Residência de dois pavimentos em Porto Alegre - RS</p>
-                        <div class="viewer-status">Carregando maquete</div>
+                    <div class="viewer" data-model="projeto1_tratado.glb" role="region">
+                        <p class="viewer-caption">Residência de dois pavimentos | Porto Alegre - RS</p>
+                        <div class="viewer-status">Carregando maquete...</div>
                         <p class="viewer-hint"></p>
                         <div class="viewer-tools">
-                            <button type="button" class="v-reset">Reiniciar vista</button>
+                            <button type="button" class="v-reset">Centralizar</button>
                             <button type="button" class="v-full" hidden>Tela cheia</button>
                         </div>
                     </div>
 
-                    <div class="viewer" data-model="projeto2.glb" role="region">
-                        <p class="viewer-caption">Ampliação residencial em Ivoti - RS</p>
-                        <div class="viewer-status">Carregando maquete</div>
+                    <div class="viewer" data-model="projeto2_tratado.glb" role="region">
+                        <p class="viewer-caption">Ampliação residencial | Ivoti - RS</p>
+                        <div class="viewer-status">Carregando maquete...</div>
                         <p class="viewer-hint"></p>
                         <div class="viewer-tools">
-                            <button type="button" class="v-reset">Reiniciar vista</button>
+                            <button type="button" class="v-reset">Centralizar</button>
                             <button type="button" class="v-full" hidden>Tela cheia</button>
                         </div>
                     </div>
@@ -484,96 +529,96 @@
             </div>
         </section>
 
-<section id="normas" class="section">
-    <div class="container">
-        <div class="standards">
-            <header class="section-head">
-                <h2>Fundamentação e critérios de dimensionamento</h2>
-                <p>O projeto em Light Steel Framing atende às exigências brasileiras para perfis de aço formados a frio e estruturas industrializadas, considerando os efeitos de flambagem local, distorcional e global.</p>
-            </header>
+        <section id="normas" class="section tint">
+            <div class="container">
+                <div class="standards">
+                    <header class="section-head">
+                        <h2>Fundamentação e critérios de dimensionamento</h2>
+                        <p>O dimensionamento estrutural em Light Steel Framing atende integralmente aos critérios normativos brasileiros vigentes para perfis formados a frio e alvenaria estrutural/industrializada.</p>
+                    </header>
 
-            <div class="norms-list">
-                <article class="norm-card">
-                    <div class="norm-info">
-                        <strong class="norm-code">ABNT NBR 15253</strong>
-                        <span class="norm-desc">Perfis de aço formados a frio para sistemas construtivos em Light Steel Framing</span>
-                    </div>
-                    <span class="norm-tag">Perfis normatizados</span>
-                </article>
+                    <div class="norms-list">
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">ABNT NBR 15253</strong>
+                                <span class="norm-desc">Perfis de aço formados a frio para sistemas construtivos em Light Steel Framing</span>
+                            </div>
+                            <span class="norm-tag">Perfis normatizados</span>
+                        </article>
 
-                <article class="norm-card">
-                    <div class="norm-info">
-                        <strong class="norm-code">ABNT NBR 14762</strong>
-                        <span class="norm-desc">Dimensionamento de estruturas de aço constituídas por perfis formados a frio</span>
-                    </div>
-                    <span class="norm-tag">Dimensionamento</span>
-                </article>
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">ABNT NBR 14762</strong>
+                                <span class="norm-desc">Dimensionamento de estruturas de aço constituídas por perfis formados a frio</span>
+                            </div>
+                            <span class="norm-tag">Dimensionamento</span>
+                        </article>
 
-                <article class="norm-card">
-                    <div class="norm-info">
-                        <strong class="norm-code">ABNT NBR 6123</strong>
-                        <span class="norm-desc">Forças devidas ao vento em edificações e determinação de pressões dinâmicas</span>
-                    </div>
-                    <span class="norm-tag">Ações de vento</span>
-                </article>
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">ABNT NBR 6123</strong>
+                                <span class="norm-desc">Forças devidas ao vento em edificações e determinação de pressões dinâmicas</span>
+                            </div>
+                            <span class="norm-tag">Ações de vento</span>
+                        </article>
 
-                <article class="norm-card">
-                    <div class="norm-info">
-                        <strong class="norm-code">ABNT NBR 16970</strong>
-                        <span class="norm-desc">Boas práticas e detalhamentos construtivos para a execução da edificação</span>
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">ABNT NBR 16970</strong>
+                                <span class="norm-desc">Diretrizes de desempenho e boas práticas para sistemas em Light Steel Framing</span>
+                            </div>
+                            <span class="norm-tag">Diretrizes executivas</span>
+                        </article>
                     </div>
-                    <span class="norm-tag">Diretrizes construtivas</span>
-                </article>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-        <section id="contato" class="section tint">
+        <section id="contato" class="section">
             <div class="container">
                 <div class="contact">
                     <div class="section-head">
                         <h2>Inicie a análise do seu projeto</h2>
-                        <p>Envie as informações do empreendimento para verificação e emissão de proposta técnica.</p>
+                        <p>Envie os arquivos arquitetônicos preliminares ou as características da sua obra para orçamento técnico.</p>
 
                         <div class="channels">
                             <a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer">
-                                <small>WhatsApp</small>
-                                <b>(51) 98020-8585</b>
+                                <small>Atendimento direto</small>
+                                <b>WhatsApp: (51) 98020-8585</b>
                             </a>
                             <a href="https://www.instagram.com/brapaengenharia/" target="_blank" rel="noopener noreferrer">
-                                <small>Instagram</small>
-                                <b>@brapaengenharia</b>
+                                <small>Projetos e canteiro</small>
+                                <b>Instagram: @brapaengenharia</b>
                             </a>
                             <a href="mailto:g.pandolfi@brapaeng.com.br">
-                                <small>E-mail</small>
+                                <small>Envio de memoriais e plantas</small>
                                 <b>g.pandolfi@brapaeng.com.br</b>
                             </a>
                         </div>
                     </div>
 
                     <form id="contact-form" onsubmit="handleFormSubmit(event)">
-                        <div>
-                            <label for="name">Nome ou empresa</label>
-                            <input type="text" id="name" required placeholder="Seu nome">
+                        <div class="form-row">
+                            <div>
+                                <label for="name">Seu nome / Empresa</label>
+                                <input type="text" id="name" required placeholder="Ex.: Gabriel">
+                            </div>
+                            <div>
+                                <label for="service">Serviço desejado</label>
+                                <select id="service">
+                                    <option value="Projeto Estrutural em LSF">Projeto Estrutural em LSF</option>
+                                    <option value="Consultoria e Parecer Técnico">Consultoria e Parecer Técnico</option>
+                                    <option value="Execução de Obra em LSF">Execução e Montagem em LSF</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div>
-                            <label for="service">Tipo de solicitação</label>
-                            <select id="service">
-                                <option value="Projeto Estrutural em LSF">Projeto Estrutural em LSF</option>
-                                <option value="Consultoria e Parecer Técnico">Consultoria e Parecer Técnico</option>
-                                <option value="Execução de obra em LSF">Execução em LSF</option>
-                            </select>
+                            <label for="message">Detalhes do projeto</label>
+                            <textarea id="message" rows="3" required placeholder="Área aproximada, número de pavimentos, localização e prazos"></textarea>
                         </div>
 
-                        <div>
-                            <label for="message">Detalhes da edificação</label>
-                            <textarea id="message" rows="4" required placeholder="Área, prazos e particularidades da edificação"></textarea>
-                        </div>
-
-                        <button type="submit" class="btn">Solicitar orçamento</button>
-
+                        <button type="submit" class="btn">Solicitar proposta via WhatsApp</button>
                         <div id="form-feedback" hidden></div>
                     </form>
                 </div>
@@ -586,21 +631,21 @@
             <div class="footer-grid">
                 <div>
                     <span class="logo">BRAPA.</span>
-                    <p>Engenharia em Light Steel Framing. Concepção e modelagem estrutural de precisão para sistemas industrializados.</p>
+                    <p>Engenharia estrutural especializada em Light Steel Framing. Precisão computacional, segurança e otimização de materiais.</p>
                 </div>
 
                 <div>
                     <h4>Navegação</h4>
                     <ul>
-                        <li><a href="#projetos">Projetos</a></li>
                         <li><a href="#servicos">Serviços</a></li>
-                        <li><a href="#normas">Normas ABNT</a></li>
+                        <li><a href="#projetos">Portfólio</a></li>
+                        <li><a href="#normas">Normas Técnicas</a></li>
                         <li><a href="#contato">Contato</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4>Contato</h4>
+                    <h4>Contato direto</h4>
                     <ul>
                         <li><a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer">(51) 98020-8585</a></li>
                         <li><a href="https://www.instagram.com/brapaengenharia/" target="_blank" rel="noopener noreferrer">@brapaengenharia</a></li>
@@ -610,8 +655,8 @@
             </div>
 
             <div class="footer-bottom">
-                <span>&copy; <span id="year"></span> BRAPA. Engenharia em Light Steel Framing.</span>
-                <a href="#">Voltar ao topo</a>
+                <span>&copy; <span id="year"></span> BRAPA Engenharia. Todos os direitos reservados.</span>
+                <a href="#">Voltar ao topo ↑</a>
             </div>
         </div>
     </footer>
@@ -627,14 +672,16 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-        const MODEL_COLOR = 0x9ca1a6;   // cinza dos elementos (troque aqui para ajustar)
+        const isMobile = window.matchMedia('(pointer: coarse)').matches;
+        const HINT = isMobile
+            ? 'Arraste para orbitar • Use dois dedos para zoom'
+            : 'Clique e arraste para orbitar • Scroll para zoom';
 
-        const touch = window.matchMedia('(pointer: coarse)').matches;
-        const HINT = touch
-            ? 'Arraste para girar, use dois dedos para zoom'
-            : 'Arraste para girar, role para dar zoom';
+        // Configuração compartilhada do DRACOLoader para descomprimir malhas Draco do projeto 1
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
 
         function createViewer(box) {
             const statusEl = box.querySelector('.viewer-status');
@@ -646,25 +693,25 @@
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.setClearColor(0x000000, 0);
+            
             const canvas = renderer.domElement;
             canvas.tabIndex = 0;
-            canvas.setAttribute('aria-label', 'Maquete 3D. Arraste para girar e role para dar zoom.');
             box.prepend(canvas);
 
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 500);
+            const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 500);
             scene.add(camera);
 
-            // Luz presa à câmera: o modelo fica bem iluminado de qualquer ângulo
-            scene.add(new THREE.HemisphereLight(0xffffff, 0xbfc3c8, 1.5));
-            const headlight = new THREE.DirectionalLight(0xffffff, 1.8);
-            headlight.position.set(0.4, 0.8, 1);
+            // Iluminação limpa com HemisphereLight e Directional fixa na câmera
+            scene.add(new THREE.HemisphereLight(0xffffff, 0xcdd2d8, 1.4));
+            const headlight = new THREE.DirectionalLight(0xffffff, 1.6);
+            headlight.position.set(0.5, 0.8, 1);
             camera.add(headlight);
 
             const controls = new OrbitControls(camera, canvas);
             controls.enableDamping = true;
             controls.dampingFactor = 0.08;
-            controls.zoomToCursor = true;
+            controls.zoomToCursor = false;
             controls.screenSpacePanning = true;
             controls.maxPolarAngle = Math.PI * 0.52;
             controls.listenToKeyEvents(canvas);
@@ -699,7 +746,10 @@
                     dirty = true;
                 }
                 if (controls.update()) dirty = true;
-                if (dirty) { renderer.render(scene, camera); dirty = false; }
+                if (dirty) {
+                    renderer.render(scene, camera);
+                    dirty = false;
+                }
             }
             controls.addEventListener('change', () => { dirty = true; });
 
@@ -719,65 +769,71 @@
             }
 
             const loader = new GLTFLoader();
-            loader.setMeshoptDecoder(MeshoptDecoder);
+            loader.setDRACOLoader(dracoLoader);
+
+            const modelFile = box.dataset.model;
+
             loader.load(
-                box.dataset.model,
+                modelFile,
                 (gltf) => {
                     const model = gltf.scene;
 
-                    // Todos os elementos em cinza, com sombreamento facetado (o arquivo não carrega normais)
+                    // Preserva os materiais pastéis e transparências do GLB tratado
                     model.traverse((o) => {
                         if (!o.isMesh) return;
-                        const m = o.material;
-                        o.material = new THREE.MeshLambertMaterial({
-                            color: MODEL_COLOR,
-                            transparent: m.transparent,
-                            opacity: m.opacity,
-                            depthWrite: !m.transparent,
-                            side: THREE.DoubleSide,
-                            flatShading: true
-                        });
-                        m.dispose();
+                        if (o.material) {
+                            o.material.side = THREE.DoubleSide;
+                            if (o.material.transparent) {
+                                o.material.depthWrite = false; // Evita corte oclusivo em transparências
+                            }
+                        }
                     });
+
                     scene.add(model);
 
+                    // Centralização e enquadramento automático da câmera
                     const bounds = new THREE.Box3().setFromObject(model);
                     const sphere = bounds.getBoundingSphere(new THREE.Sphere());
-                    const dist = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.05;
+                    const dist = (sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2))) * 1.15;
 
                     start.target.copy(sphere.center);
-                    start.pos.copy(sphere.center).add(new THREE.Vector3(1, 0.6, 1.3).normalize().multiplyScalar(dist));
+                    start.pos.copy(sphere.center).add(new THREE.Vector3(1.2, 0.7, 1.4).normalize().multiplyScalar(dist));
+                    
                     camera.position.copy(start.pos);
                     camera.near = sphere.radius / 100;
                     camera.far = sphere.radius * 40;
                     camera.updateProjectionMatrix();
+
                     controls.target.copy(start.target);
-                    controls.minDistance = sphere.radius * 0.15;
-                    controls.maxDistance = dist * 3;
+                    controls.minDistance = sphere.radius * 0.2;
+                    controls.maxDistance = dist * 2.8;
                     controls.update();
 
                     statusEl.hidden = true;
                     dirty = true;
                 },
                 (e) => {
-                    if (e.lengthComputable) statusEl.textContent = 'Carregando maquete ' + Math.round(e.loaded / e.total * 100) + '%';
+                    if (e.lengthComputable) {
+                        statusEl.textContent = 'Carregando maquete ' + Math.round((e.loaded / e.total) * 100) + '%';
+                    }
                 },
-                () => {
-                    statusEl.textContent = 'Não foi possível carregar a maquete. Publique o site em um servidor, com os arquivos .glb na mesma pasta do index.html.';
+                (error) => {
+                    console.error('Erro ao carregar modelo:', error);
+                    statusEl.textContent = 'Certifique-se de que o arquivo ' + modelFile + ' está na mesma pasta do index.html e acessado via servidor local.';
                 }
             );
 
             requestAnimationFrame(loop);
         }
 
-        // Cada maquete só é carregada quando o painel está perto de aparecer na tela
         const io = new IntersectionObserver((entries) => {
             entries.forEach((en) => {
                 if (!en.isIntersecting) return;
                 io.unobserve(en.target);
                 createViewer(en.target);
             });
-        }, { rootMargin: '300px' });
+        }, { rootMargin: '200px' });
+
         document.querySelectorAll('.viewer').forEach((v) => io.observe(v));
     </script>
 
@@ -796,11 +852,11 @@
 
             const feedback = document.getElementById('form-feedback');
             feedback.hidden = false;
-            feedback.innerHTML = '<strong>Solicitação pronta.</strong> Abrindo o WhatsApp para continuar o atendimento.';
+            feedback.innerHTML = '<strong>Solicitação pronta.</strong> Abrindo o WhatsApp para continuar o atendimento...';
 
             setTimeout(() => {
                 window.open(`https://wa.me/5551980208585?text=${waText}`, '_blank');
-            }, 800);
+            }, 700);
         }
     </script>
 </body>

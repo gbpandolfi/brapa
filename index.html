@@ -140,13 +140,40 @@
         }
 
         /* Hero */
-        .hero { padding: clamp(44px, 7vw, 88px) 0 clamp(32px, 5vw, 64px); }
+        .hero { display: grid; grid-template-columns: 1fr; }
+        .hero-copy { padding: clamp(40px, 7vw, 64px) var(--gutter) clamp(32px, 5vw, 48px); }
         .hero h1 {
             font-weight: 700;
-            font-size: clamp(32px, 5.5vw, 64px);
+            font-size: clamp(32px, 8vw, 40px);
             line-height: 1.1;
             letter-spacing: -0.025em;
-            max-width: 14em;
+        }
+
+        .hero-media {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #eef1f4;
+            overflow: hidden;
+        }
+        .hero-media svg, .hero-media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (min-width: 900px) {
+            .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: min(620px, calc(100vh - 64px)); }
+            .hero-copy {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                /* alinha o texto à grade do container; a imagem sangra até a borda direita */
+                padding: 72px 48px 72px max(var(--gutter), calc((100vw - 1120px) / 2 + var(--gutter)));
+            }
+            .hero h1 { font-size: clamp(36px, 4.4vw, 58px); }
+            .hero-media { aspect-ratio: auto; }
         }
         .hero p {
             margin-top: 18px;
@@ -214,6 +241,18 @@
         }
         .viewer:fullscreen { height: 100%; border-radius: 0; border: none; }
 
+        /* Mobile: caixas menores, mais espaço entre elas e rolagem liberada até o usuário tocar em "Interagir" */
+        @media (max-width: 899px) {
+            .viewers { gap: 32px; }
+            .viewer { height: clamp(280px, 72vw, 360px); }
+            .viewer-hint {
+                top: 38px;
+                bottom: auto;
+                max-width: calc(100% - 32px);
+            }
+        }
+        .viewer.is-locked canvas { touch-action: pan-y pinch-zoom !important; cursor: default; }
+
         .viewer canvas {
             display: block;
             width: 100%;
@@ -279,59 +318,70 @@
         }
         .viewer-tools button:hover { border-color: var(--ink); background: #ffffff; }
 
-        /* Normas */
-        .standards {
-            display: grid;
-            gap: 28px;
-            grid-template-columns: 1fr;
-            align-items: start;
+        /* Normas (dentro de Serviços) */
+        .norms {
+            margin-top: clamp(36px, 5vw, 20px);
+            padding-top: clamp(28px, 4vw, 20px);
+            border-top: 1px solid var(--line);
         }
-        @media (min-width: 900px) {
-            .standards { grid-template-columns: 5fr 7fr; gap: 56px; }
-            .standards .section-head { margin-bottom: 0; }
-        }
-
-        .norms-list { display: grid; gap: 12px; }
+        .norms-list { margin-top: 4px; display: grid; gap: 12px; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .norms-list { grid-template-columns: 1fr 1fr; gap: 16px; } }
         .norm-card {
-            background: var(--surface);
+            background: var(--paper);
             padding: 16px 20px;
             border-radius: 6px;
             border: 1px solid var(--line);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
         }
-        @media (min-width: 580px) {
-            .norm-card {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 16px;
-            }
-        }
-        .norm-info { display: grid; gap: 2px; }
-        .norm-code {
+        .norm-info { display: grid; gap: 4px; }
+        .norm-code { font-family: var(--display); font-weight: 700; font-size: 14.5px; color: var(--ink); }
+        .norm-desc { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+        .norm-desc b { font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+        /* Quem somos */
+        .about { display: grid; gap: 36px; grid-template-columns: 1fr; align-items: start; }
+        @media (min-width: 900px) { .about { grid-template-columns: 4fr 7fr; gap: 64px; } }
+
+        .about-portrait { max-width: 340px; }
+        .portrait-frame {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            background: #eef1f4;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
             font-family: var(--display);
-            font-weight: 700;
-            font-size: 14.5px;
-            color: var(--ink);
+            font-weight: 800;
+            font-size: 64px;
+            letter-spacing: -0.03em;
+            color: #c3c8ce;
         }
-        .norm-desc {
-            font-size: 13.5px;
-            color: var(--muted);
-            line-height: 1.45;
+        .portrait-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .about-portrait figcaption { margin-top: 12px; font-size: 13.5px; color: var(--muted); }
+        .about-portrait figcaption b { display: block; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); }
+
+        .about-body h2 { font-weight: 700; font-size: clamp(22px, 3.2vw, 34px); line-height: 1.2; }
+        .about-body p { margin-top: 14px; color: var(--muted); max-width: 62ch; }
+        .about-body p.lead { color: var(--ink); font-size: 16.5px; }
+
+        .about-facts {
+            margin-top: 28px;
+            display: grid;
+            gap: 0;
+            border-top: 2px solid var(--ink);
         }
-        .norm-tag {
-            align-self: flex-start;
-            white-space: nowrap;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--ink);
-            background: #e2e5e8;
-            padding: 4px 10px;
-            border-radius: 20px;
+        .about-facts div {
+            display: grid;
+            gap: 2px 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
         }
-        @media (min-width: 580px) { .norm-tag { align-self: center; } }
+        @media (min-width: 600px) { .about-facts div { grid-template-columns: 130px 1fr; } }
+        .about-facts dt { font-size: 12.5px; font-weight: 600; font-family: var(--display); color: var(--ink); }
+        .about-facts dd { font-size: 14.5px; color: var(--muted); }
+
+        .about-actions { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 
         /* Contato */
         .contact {
@@ -346,7 +396,9 @@
 
         .channels { margin-top: 28px; display: grid; gap: 16px; }
         .channels a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 14px;
             padding: 12px 16px;
             background: var(--paper);
             border: 1px solid var(--line);
@@ -355,6 +407,27 @@
         }
         .channels a:hover { border-color: var(--ink); }
         .channels small { display: block; font-size: 12px; color: var(--muted); }
+        .ch-icon {
+            flex: none;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--ink);
+            transition: background .2s, color .2s;
+        }
+        .ch-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .channels a:hover .ch-icon { background: var(--ink); color: var(--paper); }
         .channels b { font-family: var(--display); font-weight: 600; font-size: 15px; word-break: break-word; }
 
         form {
@@ -441,7 +514,7 @@
             <nav class="site-nav" aria-label="Principal">
                 <a href="#servicos">Serviços</a>
                 <a href="#projetos">Portfólio</a>
-                <a href="#normas">Engenharia</a>
+                <a href="#sobre">Quem somos</a>
                 <a href="#contato">Orçamento</a>
             </nav>
 
@@ -454,13 +527,35 @@
 
     <main>
         <section class="hero">
-            <div class="container">
-                <h1>Seu projeto em Light Steel Framing</h1>
+            <div class="hero-copy">
+                <h1>Sua obra em Light Steel Framing</h1>
                 <p>Soluções completas e inteligentes para uma obra rápida, limpa e sem imprevistos.</p>
                 <div class="hero-actions">
                     <a href="#projetos" class="btn">Ver projetos</a>
                     <a href="#contato" class="link">Solicitar orçamento</a>
                 </div>
+            </div>
+
+            <!-- IMAGEM DE OBRA: coloque o arquivo "hero-obra.jpg" na mesma pasta do index.html.
+                 Enquanto ele não existir, aparece a ilustração de painel LSF abaixo. -->
+            <div class="hero-media">
+                <svg viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                    <rect width="600" height="520" fill="#eef1f4"/>
+                    <g stroke="#b9bfc6" stroke-width="6" fill="none" stroke-linecap="square">
+                        <line x1="90" y1="90" x2="510" y2="90"/>
+                        <line x1="90" y1="430" x2="510" y2="430"/>
+                        <line x1="90" y1="90" x2="90" y2="430"/>
+                        <line x1="188" y1="90" x2="188" y2="430"/>
+                        <line x1="286" y1="90" x2="286" y2="430"/>
+                        <line x1="384" y1="90" x2="384" y2="430"/>
+                        <line x1="510" y1="90" x2="510" y2="430"/>
+                    </g>
+                    <g stroke="#9aa1a9" stroke-width="3" fill="none">
+                        <line x1="90" y1="430" x2="510" y2="90"/>
+                        <line x1="90" y1="260" x2="510" y2="260" stroke-dasharray="10 8"/>
+                    </g>
+                </svg>
+                <img src="hero-obra.jpg" alt="Obra em Light Steel Framing" onerror="this.remove()">
             </div>
         </section>
 
@@ -473,26 +568,55 @@
                 <div class="services">
                     <div class="service">
                         <div>
-                            <h3>Modelagem e compatibilização</h3>
-                            <p>Compatibilização arquitetônica e detalhamento individualizado de cada montante, guia e travamento em 3D.</p>
+                            <h3>Projeto estrutural</h3>
+                            <p>Dimensionamento completo da estrutura metálica, compatibilização arquitetônica e detalhamento individualizado de cada elemento em 3D.</p>
                         </div>
-                        <p class="deliver">Entregáveis: pranchas de montagem e modelo 3D</p>
-                    </div>
-
-                    <div class="service">
-                        <div>
-                            <h3>Cálculo e dimensionamento</h3>
-                            <p>Determinação dos esforços solicitantes, dimensionamento das seções e detalhamento das ancoragens na fundação.</p>
-                        </div>
-                        <p class="deliver">Entregáveis: memorial de cálculo e ART</p>
                     </div>
 
                     <div class="service">
                         <div>
                             <h3>Listas de materiais e montagem</h3>
-                            <p>Quantitativo milimétrico de perfis, parafusos e acessórios, com diretrizes técnicas para montagem no canteiro.</p>
+                            <p>Quantitativo de perfis, parafusos e acessórios, com diretrizes técnicas para montagem no canteiro.</p>
                         </div>
-                        <p class="deliver">Entregáveis: lista de compras e manual executivo</p>
+                    </div>
+
+                    <div class="service">
+                        <div>
+                            <h3>Execução da obra</h3>
+                            <p>Serviço completo de execução da obra em Light Steel Framing, com acompanhamento técnico direto do projeto ao canteiro.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="normas" class="norms">
+                    <div class="norms-list">
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">Perfis normatizados</strong>
+                                <span class="norm-desc"><b>ABNT NBR 15253</b> · Perfis de aço formados a frio para sistemas construtivos em Light Steel Framing</span>
+                            </div>
+                        </article>
+
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">Dimensionamento</strong>
+                                <span class="norm-desc"><b>ABNT NBR 14762</b> · Dimensionamento de estruturas de aço constituídas por perfis formados a frio</span>
+                            </div>
+                        </article>
+
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">Resistência ao vento</strong>
+                                <span class="norm-desc"><b>ABNT NBR 6123</b> · Forças devidas ao vento em edificações e determinação de pressões dinâmicas</span>
+                            </div>
+                        </article>
+
+                        <article class="norm-card">
+                            <div class="norm-info">
+                                <strong class="norm-code">Diretrizes executivas</strong>
+                                <span class="norm-desc"><b>ABNT NBR 16970</b> · Diretrizes de desempenho e boas práticas para sistemas em Light Steel Framing</span>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -511,6 +635,7 @@
                         <div class="viewer-status">Carregando maquete...</div>
                         <p class="viewer-hint"></p>
                         <div class="viewer-tools">
+                            <button type="button" class="v-lock" hidden>Interagir</button>
                             <button type="button" class="v-reset">Centralizar</button>
                             <button type="button" class="v-full" hidden>Tela cheia</button>
                         </div>
@@ -521,6 +646,7 @@
                         <div class="viewer-status">Carregando maquete...</div>
                         <p class="viewer-hint"></p>
                         <div class="viewer-tools">
+                            <button type="button" class="v-lock" hidden>Interagir</button>
                             <button type="button" class="v-reset">Centralizar</button>
                             <button type="button" class="v-full" hidden>Tela cheia</button>
                         </div>
@@ -529,46 +655,35 @@
             </div>
         </section>
 
-        <section id="normas" class="section tint">
+        <section id="sobre" class="section tint">
             <div class="container">
-                <div class="standards">
-                    <header class="section-head">
-                        <h2>Fundamentação e critérios de dimensionamento</h2>
-                        <p>O dimensionamento estrutural em Light Steel Framing atende integralmente aos critérios normativos brasileiros vigentes para perfis formados a frio e alvenaria estrutural/industrializada.</p>
-                    </header>
+                <div class="about">
+                    <figure class="about-portrait">
+                        <div class="portrait-frame">
+                            <span aria-hidden="true">GP</span>
+                            <!-- FOTO: coloque "gabriel.jpg" na mesma pasta do index.html (formato retrato, 4:5). -->
+                            <img src="gabriel.jpg" alt="Gabriel Pandolfi, fundador da BRAPA Engenharia" onerror="this.remove()">
+                        </div>
+                        <figcaption>
+                            <b>Gabriel Pandolfi</b>
+                            Fundador da BRAPA Engenharia
+                        </figcaption>
+                    </figure>
 
-                    <div class="norms-list">
-                        <article class="norm-card">
-                            <div class="norm-info">
-                                <strong class="norm-code">ABNT NBR 15253</strong>
-                                <span class="norm-desc">Perfis de aço formados a frio para sistemas construtivos em Light Steel Framing</span>
-                            </div>
-                            <span class="norm-tag">Perfis normatizados</span>
-                        </article>
+                    <div class="about-body">
+                        <h2>Quem somos</h2>
+                        <p class="lead">A BRAPA nasceu para levar precisão e previsibilidade às obras em Light Steel Framing, atendendo construtoras e incorporadoras da consultoria à execução. Nossa operação é estruturada para focar em um único projeto por vez, assegurando o controle rigoroso de prazos, padrões de qualidade e total exclusividade de recursos.</p>
 
-                        <article class="norm-card">
-                            <div class="norm-info">
-                                <strong class="norm-code">ABNT NBR 14762</strong>
-                                <span class="norm-desc">Dimensionamento de estruturas de aço constituídas por perfis formados a frio</span>
-                            </div>
-                            <span class="norm-tag">Dimensionamento</span>
-                        </article>
+                        <dl class="about-facts">
+                            <div><dt>Formação</dt><dd>Engenharia Civil, UFRGS</dd></div>
+                            <div><dt>Atuação</dt><dd>Consultoria, projeto e execução em Light Steel Framing</dd></div>
+                            <div><dt>Local</dt><dd>Rio Grande do Sul, Brasil</dd></div>
+                        </dl>
 
-                        <article class="norm-card">
-                            <div class="norm-info">
-                                <strong class="norm-code">ABNT NBR 6123</strong>
-                                <span class="norm-desc">Forças devidas ao vento em edificações e determinação de pressões dinâmicas</span>
-                            </div>
-                            <span class="norm-tag">Resistência ao vento</span>
-                        </article>
-
-                        <article class="norm-card">
-                            <div class="norm-info">
-                                <strong class="norm-code">ABNT NBR 16970</strong>
-                                <span class="norm-desc">Diretrizes de desempenho e boas práticas para sistemas em Light Steel Framing</span>
-                            </div>
-                            <span class="norm-tag">Diretrizes executivas</span>
-                        </article>
+                        <div class="about-actions">
+                            <a href="#contato" class="btn">Solicitar orçamento</a>
+                            <a href="https://www.linkedin.com/in/gabrielpandolfi/" target="_blank" rel="noopener noreferrer" class="link">Ver perfil no LinkedIn</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -583,16 +698,19 @@
 
                         <div class="channels">
                             <a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer">
-                                <small>WhatsApp</small>
-                                <b>(51) 98020-8585</b>
+                                <span class="ch-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><g transform="translate(7.3 7.3) scale(0.4)"><path stroke-width="4.4" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></g></svg></span>
+                                <span><small>WhatsApp</small>
+                                <b>(51) 98020-8585</b></span>
                             </a>
                             <a href="https://www.instagram.com/brapaengenharia/" target="_blank" rel="noopener noreferrer">
-                                <small>Instagram</small>
-                                <b>@brapaengenharia</b>
+                                <span class="ch-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><line x1="17.6" y1="6.4" x2="17.61" y2="6.4"/></svg></span>
+                                <span><small>Instagram</small>
+                                <b>@brapaengenharia</b></span>
                             </a>
-                            <a href="mailto:g.pandolfi@brapaeng.com.br">
-                                <small>E-mail</small>
-                                <b>g.pandolfi@brapaeng.com.br</b>
+                            <a href="mailto:contato@brapaeng.com.br">
+                                <span class="ch-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="3,7 12,13.5 21,7"/></svg></span>
+                                <span><small>E-mail</small>
+                                <b>contato@brapaeng.com.br</b></span>
                             </a>
                         </div>
                     </div>
@@ -640,6 +758,7 @@
                         <li><a href="#servicos">Serviços</a></li>
                         <li><a href="#projetos">Portfólio</a></li>
                         <li><a href="#normas">Normas Técnicas</a></li>
+                        <li><a href="#sobre">Quem somos</a></li>
                         <li><a href="#contato">Contato</a></li>
                     </ul>
                 </div>
@@ -649,7 +768,7 @@
                     <ul>
                         <li><a href="https://wa.me/5551980208585" target="_blank" rel="noopener noreferrer">(51) 98020-8585</a></li>
                         <li><a href="https://www.instagram.com/brapaengenharia/" target="_blank" rel="noopener noreferrer">@brapaengenharia</a></li>
-                        <li><a href="mailto:g.pandolfi@brapaeng.com.br">g.pandolfi@brapaeng.com.br</a></li>
+                        <li><a href="mailto:contato@brapaeng.com.br">contato@brapaeng.com.br</a></li>
                     </ul>
                 </div>
             </div>
@@ -688,6 +807,7 @@
             const hintEl = box.querySelector('.viewer-hint');
             const resetBtn = box.querySelector('.v-reset');
             const fullBtn = box.querySelector('.v-full');
+            const lockBtn = box.querySelector('.v-lock');
             hintEl.textContent = HINT;
 
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -715,6 +835,27 @@
             controls.screenSpacePanning = true;
             controls.maxPolarAngle = Math.PI * 0.52;
             controls.listenToKeyEvents(canvas);
+
+            // Mobile: a caixa começa "travada" (a rolagem da página passa por cima dela).
+            // O usuário toca em "Interagir" para girar o modelo e em "Concluir" (ou fora da caixa) para voltar a rolar.
+            if (isMobile) {
+                lockBtn.hidden = false;
+                const setLocked = (locked) => {
+                    box.classList.toggle('is-locked', locked);
+                    controls.enabled = !locked;
+                    lockBtn.textContent = locked ? 'Interagir' : 'Concluir';
+                    hintEl.textContent = locked
+                        ? 'Deslize para rolar a página • Toque em Interagir para girar o modelo'
+                        : HINT;
+                    hintEl.classList.remove('is-hidden');
+                    dirty = true;
+                };
+                lockBtn.addEventListener('click', () => setLocked(!box.classList.contains('is-locked')));
+                document.addEventListener('pointerdown', (e) => {
+                    if (!box.contains(e.target) && !box.classList.contains('is-locked')) setLocked(true);
+                }, { passive: true });
+                queueMicrotask(() => setLocked(true));
+            }
 
             let dirty = true;
             const start = { pos: new THREE.Vector3(), target: new THREE.Vector3() };
